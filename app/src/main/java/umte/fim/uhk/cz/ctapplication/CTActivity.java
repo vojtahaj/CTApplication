@@ -1,5 +1,6 @@
 package umte.fim.uhk.cz.ctapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,24 +14,35 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 
 public class CTActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private Socket socket;
+    private SocketAddress socketAddress;
+    private static InputStreamReader inputStreamReader;
+    private static BufferedReader bufferedReader;
+
+    String message = "";
+    String IpAddress = "10.0.0.58";
+    int port = 1024;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ct);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -38,6 +50,26 @@ public class CTActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        Intent intent = getIntent();
+        port = intent.getIntExtra("port",0);
+        IpAddress =  intent.getStringExtra("IP");
+        System.out.println("Port z MainActivity: "+ port);
+        System.out.println("IP z MainActivity: "+ IpAddress);
+//        connect();
+    }
+
+    private void connect() {
+        InetAddress address = null;
+        try {
+            address = Inet4Address.getByName(IpAddress);
+            socketAddress = new InetSocketAddress(address, 1024);
+            socket.connect(socketAddress, 5000);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "nepovedlo se pripojit", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override

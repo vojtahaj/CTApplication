@@ -40,12 +40,6 @@
         android:inputType="number"
         android:layout_marginLeft="10dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/textView_lbl_Port"
-        android:layout_marginLeft="10dp"/>
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

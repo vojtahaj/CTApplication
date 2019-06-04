@@ -21,6 +21,6 @@
     <string name="menu_weather">Počasí</string>
     <string name="menu_setting">Nastavení</string>
     <string name="menu_light">Semafor</string>
-    <string name="bad_IP_Format">španý formát IP</string>
+    <string name="bad_IP_Format">špatný formát IP</string>
     <string name="bad_port">Port není číslo</string>
 </resources>
