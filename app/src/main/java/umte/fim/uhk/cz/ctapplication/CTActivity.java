@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -25,6 +28,10 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 
+import umte.fim.uhk.cz.ctapplication.fragments.MonitorFragment;
+import umte.fim.uhk.cz.ctapplication.fragments.SettingFragment;
+import umte.fim.uhk.cz.ctapplication.fragments.WeatherFragment;
+
 public class CTActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -32,6 +39,9 @@ public class CTActivity extends AppCompatActivity
     private SocketAddress socketAddress;
     private static InputStreamReader inputStreamReader;
     private static BufferedReader bufferedReader;
+
+    private Fragment monitorFragment, weatherFragment, settingFragment;
+    private FragmentManager fragmentManager;
 
     String message = "";
     String IpAddress = "10.0.0.58";
@@ -56,6 +66,11 @@ public class CTActivity extends AppCompatActivity
         IpAddress =  intent.getStringExtra("IP");
         System.out.println("Port z MainActivity: "+ port);
         System.out.println("IP z MainActivity: "+ IpAddress);
+
+        fragmentManager = getSupportFragmentManager();
+        weatherFragment = new WeatherFragment();
+        settingFragment = new SettingFragment();
+        monitorFragment = new MonitorFragment();
 //        connect();
     }
 
@@ -110,14 +125,16 @@ public class CTActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
         if (id == R.id.nav_home) {
             // Handle the camera action
         } else if (id == R.id.nav_monitor) {
-
+            fragmentTransaction.replace(R.id.fragmentFrameLayout, monitorFragment);
         } else if (id == R.id.nav_setting) {
-
+            fragmentTransaction.replace(R.id.fragmentFrameLayout, settingFragment);
         } else if (id == R.id.nav_weather) {
-
+            fragmentTransaction.replace(R.id.fragmentFrameLayout, weatherFragment);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

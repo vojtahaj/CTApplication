@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="90dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_temperature_from_Arduino"/>
+        <TextView
+            android:id="@+id/arduino_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 st. C"
+            android:layout_marginLeft="20dp"
+            android:paddingTop="50dp"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="90dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/txt_temperature_from_API"/>
+        <TextView
+            android:id="@+id/api_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10 st. C"
+            android:layout_marginLeft="20dp"
+
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="90dp">
+        <TextView
+            android:id="@+id/lat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Souradnice lat"/>
+        <TextView
+            android:id="@+id/lon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="souradnice lon"
+            />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_update_temperature"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="@string/btn_update" />
+
+</LinearLayout>
