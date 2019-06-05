@@ -30,4 +30,13 @@
     <string name="textView_length_y">Doba svitu žlutá [dsec]</string>
     <string name="textView_length_g">Doba svitu zelená [dsec]</string>
     <string name="btn_set_values">Nastav</string>
+
+    <string-array name="CT_set_sequence">
+        <item>Tma</item>
+        <item>Startuj</item>
+        <item>Přibližuj</item>
+        <item>Hned startuj</item>
+        <item>Startuj R/G</item>
+        <item>Ručně</item>
+    </string-array>
 </resources>
