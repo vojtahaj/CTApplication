@@ -27,10 +27,12 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
+import java.util.ArrayList;
 
 import umte.fim.uhk.cz.ctapplication.fragments.MonitorFragment;
 import umte.fim.uhk.cz.ctapplication.fragments.SettingFragment;
 import umte.fim.uhk.cz.ctapplication.fragments.WeatherFragment;
+import umte.fim.uhk.cz.ctapplication.utils.MyMonitorLog;
 
 public class CTActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,6 +44,8 @@ public class CTActivity extends AppCompatActivity
 
     private Fragment monitorFragment, weatherFragment, settingFragment;
     private FragmentManager fragmentManager;
+
+    public static ArrayList<MyMonitorLog> monitorLogs;
 
     String message = "";
     String IpAddress = "10.0.0.58";
@@ -64,8 +68,10 @@ public class CTActivity extends AppCompatActivity
         Intent intent = getIntent();
         port = intent.getIntExtra("port",0);
         IpAddress =  intent.getStringExtra("IP");
-        System.out.println("Port z MainActivity: "+ port);
-        System.out.println("IP z MainActivity: "+ IpAddress);
+//        System.out.println("Port z MainActivity: "+ port);
+//        System.out.println("IP z MainActivity: "+ IpAddress);
+
+        monitorLogs = new ArrayList<>();
 
         fragmentManager = getSupportFragmentManager();
         weatherFragment = new WeatherFragment();

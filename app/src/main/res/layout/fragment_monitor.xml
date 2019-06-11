@@ -13,7 +13,7 @@
         android:text="@string/menu_monitor" />
 
     <Button
-        android:id="@+id/btn_clear_monitor"
+        android:id="@+id/btnClearMonitor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/btn_clear" />

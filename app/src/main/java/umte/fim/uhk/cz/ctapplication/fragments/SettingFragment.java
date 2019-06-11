@@ -15,7 +15,9 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import umte.fim.uhk.cz.ctapplication.CTActivity;
 import umte.fim.uhk.cz.ctapplication.R;
+import umte.fim.uhk.cz.ctapplication.utils.MyMonitorLog;
 
 public class SettingFragment extends Fragment {
 
@@ -59,7 +61,7 @@ public class SettingFragment extends Fragment {
                 else builder += "VB\r\n";
 
                 Toast.makeText(getActivity(), builder, Toast.LENGTH_LONG).show();
-                //todo log.add(builder);
+                CTActivity.monitorLogs.add(new MyMonitorLog(builder, false));
                 //todo socket.write(builder);
 
             }
