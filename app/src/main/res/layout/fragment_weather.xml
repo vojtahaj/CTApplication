@@ -33,6 +33,7 @@
             android:text="@string/txt_temperature_from_API"/>
         <TextView
             android:id="@+id/api_temp"
+            android:textColor="@color/colorOrange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="10 st. C"

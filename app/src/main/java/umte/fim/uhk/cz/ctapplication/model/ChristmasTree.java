@@ -12,4 +12,6 @@ public class ChristmasTree {
     public Light rL;
     public Light lL;
 
+    public double temperature;
+
 }
