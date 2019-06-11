@@ -5,25 +5,50 @@
     android:orientation="vertical">
 
     <TextView
-        android:text="@string/textView_length_y"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/textView_length_y" />
 
     <EditText
         android:id="@+id/delay_y"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="0"/>
+        android:hint="15" />
+
     <TextView
-        android:text="@string/textView_length_g"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/textView_length_g" />
 
     <EditText
         android:id="@+id/delay_g"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="0"/>
+        android:hint="40" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textView_sequence" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_add" />
+
+        <RadioButton
+            android:id="@+id/radio_procedure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_procedure" />
+    </RadioGroup>
+
     <Spinner
         android:id="@+id/spinner_sequence"
         android:layout_width="match_parent"
