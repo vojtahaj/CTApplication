@@ -1,8 +1,12 @@
 package umte.fim.uhk.cz.ctapplication.weather;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +14,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -19,27 +27,38 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import umte.fim.uhk.cz.ctapplication.R;
 
 /**
- *  cele pocasi je inspirovano z
- *  http://www.androidmads.info/2018/11/how-to-create-weather-app-using.html
+ * cele pocasi je inspirovano z
+ * http://www.androidmads.info/2018/11/how-to-create-weather-app-using.html
+ * <p>
+ * prace s gps souradnicemi je ze cviceni nebo vlastni
  */
 
-public class WeatherFragment extends Fragment {
+public class WeatherFragment extends Fragment implements OnSuccessListener<Location> {
 
     public static final String appId = "27129157dbb3087603ac11746ee9eedf";
     public static final String apiUrl = "http://api.openweathermap.org/";
 
-    public String lat = "15";
-    public String lon = "30";
+    double latitude;
+    double longitude;
 
     private Button btnUpdate;
     private TextView txtTempApi;
+    private TextView txtLat;
+    private TextView txtLon;
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
 
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
+        setLocation();
+
         txtTempApi = view.findViewById(R.id.api_temp);
+        txtLat = view.findViewById(R.id.lat);
+        txtLon = view.findViewById(R.id.lon);
 
         btnUpdate = view.findViewById(R.id.btn_update_temperature);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +72,29 @@ public class WeatherFragment extends Fragment {
         return view;
     }
 
+
+    private void setLocation() {
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            requestPermissions(new String[]{
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+            }, 10);
+            Toast.makeText(getActivity(), "neni opravneni", Toast.LENGTH_LONG).show();
+
+            return;
+        }
+        fusedLocationProviderClient
+                .getLastLocation()
+                .addOnSuccessListener(this);
+    }
+
+    private void setLabels() {
+        txtLat.setText(String.valueOf(latitude));
+        txtLon.setText(String.valueOf(longitude));
+    }
+
     private void getCurrentData() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(apiUrl)
@@ -60,7 +102,7 @@ public class WeatherFragment extends Fragment {
                 .build();
 
         WeatherService weatherService = retrofit.create(WeatherService.class);
-        Call<WeatherResponse> call = weatherService.getCurrentData(lat, lon, appId);
+        Call<WeatherResponse> call = weatherService.getCurrentData(String.valueOf(latitude), String.valueOf(longitude), appId);
         call.enqueue(new Callback<WeatherResponse>() {
             @Override
             public void onResponse(Call<WeatherResponse> call, Response<WeatherResponse> response) {
@@ -91,5 +133,13 @@ public class WeatherFragment extends Fragment {
     private void getDataFromArduino() {
 
         //todo writer.send(T?)
+    }
+
+    @Override
+    public void onSuccess(Location location) {
+        longitude = location.getLongitude();
+        latitude = location.getLatitude();
+        Toast.makeText(getActivity(), "location changed", Toast.LENGTH_LONG).show();
+        setLabels();
     }
 }
