@@ -48,7 +48,7 @@ public class MonitorFragment extends Fragment {
         if (CTActivity.monitorLogs.size() > 0)
             for (int i = 0; i < CTActivity.monitorLogs.size(); i++) {
                 txtMonitor.setTextColor(Color.YELLOW);
-                txtMonitor.append(CTActivity.monitorLogs.get(i).getTime().toString() + ": ");
+                txtMonitor.append(CTActivity.monitorLogs.get(i).getTime() + ": ");
                 if (CTActivity.monitorLogs.get(i).isRecieved())
                     txtMonitor.setTextColor(Color.BLACK);
                 else txtMonitor.setTextColor(Color.GREEN);

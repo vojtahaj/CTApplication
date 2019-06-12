@@ -1,12 +1,11 @@
 package umte.fim.uhk.cz.ctapplication.utils;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 public class MyMonitorLog {
 
-    private Date time;
+    private String sTime;
     private boolean recieved;
     private String message;
     private SimpleDateFormat simpleDateFormat;
@@ -16,16 +15,17 @@ public class MyMonitorLog {
         this.recieved = recieved;
 
         simpleDateFormat = new SimpleDateFormat("HH:mm:ss.SS");
-        time = Calendar.getInstance().getTime();
+        String sTime = simpleDateFormat.format(new Date());
+        System.out.println("Novy format datumu: " + sTime);
         System.out.println("!!!!!!!!!!!!!!!!!!!!! ADDDED !!!!!!!!!!!!!!!!!");
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setTime(String time) {
+        sTime = time;
     }
 
-    public Date getTime() {
-        return time;
+    public String getTime() {
+        return sTime;
     }
 
     public boolean isRecieved() {
