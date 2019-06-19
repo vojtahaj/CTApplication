@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +20,7 @@ import umte.fim.uhk.cz.ctapplication.CTActivity;
 import umte.fim.uhk.cz.ctapplication.R;
 
 public class MonitorFragment extends Fragment {
-    private Button btnClear;
+
     private TextView txtMonitor;
 
     @Nullable
@@ -25,7 +28,7 @@ public class MonitorFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_monitor, container, false);
 
-        btnClear = view.findViewById(R.id.btnClearMonitor);
+        Button btnClear = view.findViewById(R.id.btnClearMonitor);
         txtMonitor = view.findViewById(R.id.txtMonitor);
 
         btnClear.setOnClickListener(new View.OnClickListener() {
@@ -44,15 +47,30 @@ public class MonitorFragment extends Fragment {
 
     @SuppressLint("ResourceAsColor")
     private void setMonitor() {
+        txtMonitor.setText("");
         Toast.makeText(getActivity(), "monitor vypis", Toast.LENGTH_LONG).show();
         if (CTActivity.monitorLogs.size() > 0)
             for (int i = 0; i < CTActivity.monitorLogs.size(); i++) {
-                txtMonitor.setTextColor(Color.YELLOW);
-                txtMonitor.append(CTActivity.monitorLogs.get(i).getTime() + ": ");
-                if (CTActivity.monitorLogs.get(i).isRecieved())
-                    txtMonitor.setTextColor(Color.BLACK);
-                else txtMonitor.setTextColor(Color.GREEN);
-                txtMonitor.append(CTActivity.monitorLogs.get(i).getMessage() + "\n");
+                SpannableStringBuilder builder = new SpannableStringBuilder();
+
+                SpannableString date = SpannableString.valueOf(CTActivity.monitorLogs.get(i).getTime() + ": ");
+                date.setSpan(new ForegroundColorSpan(Color.BLACK), 0, date.length(), 0);
+                builder.append(date);
+
+                SpannableString message = SpannableString.valueOf(CTActivity.monitorLogs.get(i).getMessage() + "\n");
+
+
+                if (CTActivity.monitorLogs.get(i).isRecieved()) {
+                    message.setSpan(new ForegroundColorSpan(Color.GREEN), 0, message.length(), 0);
+                    builder.append(message);
+                    //txtMonitor.setTextColor(Color.BLACK);
+                } else {
+                    message.setSpan(new ForegroundColorSpan(Color.RED), 0, message.length(), 0);
+                    builder.append(message);
+//                    txtMonitor.setTextColor(Color.GREEN);
+                }
+                txtMonitor.append(builder);
+//                txtMonitor.append(CTActivity.monitorLogs.get(i).getMessage() + "\n");
                 // System.out.println("Vypisuji do monitooru: " + CTActivity.monitorLogs.size());
             }
 

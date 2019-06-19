@@ -8,15 +8,13 @@ public class MyMonitorLog {
     private String sTime;
     private boolean recieved;
     private String message;
-    private SimpleDateFormat simpleDateFormat;
 
     public MyMonitorLog(String message, boolean recieved) {
         this.message = message;
         this.recieved = recieved;
 
-        simpleDateFormat = new SimpleDateFormat("HH:mm:ss.SS");
-        String sTime = simpleDateFormat.format(new Date());
-        System.out.println("Novy format datumu: " + sTime);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss.SS");
+        sTime = simpleDateFormat.format(new Date());
         System.out.println("!!!!!!!!!!!!!!!!!!!!! ADDDED !!!!!!!!!!!!!!!!!");
     }
 

@@ -24,7 +24,7 @@
     <string name="bad_IP_Format">špatný formát IP</string>
     <string name="bad_port">Port není číslo</string>
     <string name="btn_clear">Smazat</string>
-    <string name="txt_temperature_from_Arduino">Teplota z Arduina</string>
+    <string name="txt_temperature_from_Arduino">Naměřená teplota z Arduina</string>
     <string name="txt_temperature_from_API">Očekávaná teplota</string>
     <string name="btn_update">Aktualizovat</string>
     <string name="textView_length_y">Doba svitu žlutá [dsec]</string>
@@ -39,6 +39,9 @@
     <string name="connected">Připojeno</string>
     <string name="connect_fail">Nepovedlo se připojit</string>
     <string name="not_connected">Nepodařilo se připojit, zkontrolujte adresu a port!</string>
+    <string name="lat">Šířka</string>
+    <string name="lon">Délka</string>
+    <string name="expected_val">10 °C</string>
 
     <string-array name="CT_set_sequence">
         <item>Tma</item>

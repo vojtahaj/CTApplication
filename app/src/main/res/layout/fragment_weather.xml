@@ -5,58 +5,94 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="90dp">
+        android:orientation="horizontal"
+        android:paddingLeft="90dp"
+        android:paddingTop="45dp"
+        android:paddingRight="90dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txt_temperature_from_Arduino"/>
+            android:layout_weight="1"
+            android:text="@string/txt_temperature_from_Arduino" />
+
         <TextView
             android:id="@+id/arduino_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 st. C"
-            android:layout_marginLeft="20dp"
-            android:paddingTop="50dp"
-            />
+            android:layout_weight="1"
+            android:gravity="end"
+            android:hint="@string/expected_val" />
     </LinearLayout>
+
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="90dp">
+        android:orientation="horizontal"
+        android:paddingLeft="90dp"
+        android:paddingRight="90dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/txt_temperature_from_API"/>
+            android:layout_weight="1"
+            android:text="@string/txt_temperature_from_API" />
+
         <TextView
             android:id="@+id/api_temp"
-            android:textColor="@color/colorOrange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10 st. C"
-            android:layout_marginLeft="20dp"
-
-            />
+            android:layout_weight="1"
+            android:gravity="end"
+            android:hint="@string/expected_val"
+            android:textColor="@color/colorOrange" />
     </LinearLayout>
+
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="90dp">
+        android:orientation="horizontal"
+        android:paddingLeft="90dp"
+        android:paddingTop="30dp"
+        android:paddingRight="90dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/lat" />
+
         <TextView
             android:id="@+id/lat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Souradnice lat"/>
+            android:layout_weight="1"
+            android:gravity="end"
+            android:hint="@string/lat" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingLeft="90dp"
+        android:paddingRight="90dp">
+
         <TextView
-            android:id="@+id/lon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="souradnice lon"
-            />
+            android:layout_weight="1"
+            android:text="@string/lon" />
+
+        <TextView
+            android:id="@+id/lon"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:hint="@string/lon" />
     </LinearLayout>
 
     <Button
@@ -64,6 +100,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:layout_marginLeft="90dp"
+        android:layout_marginRight="90dp"
         android:text="@string/btn_update" />
 
 </LinearLayout>
