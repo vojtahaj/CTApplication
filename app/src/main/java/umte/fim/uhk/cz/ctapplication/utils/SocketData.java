@@ -18,19 +18,30 @@ public class SocketData implements Runnable {
 
     private Inet4Address serverAddress;
     private Socket socket;
-    private int PORT;// = 1024;
+    private int port; // = 1024;
     private String ipAddress;// = "192.168.2.106";
+
+    private boolean state = true;
+
+    public boolean isState() {
+        return state;
+    }
+
+    public Socket getSocket() {
+        return socket;
+    }
 
     public SocketData(String ipAddress, int port) {
         this.ipAddress = ipAddress;
-        PORT = port;
+        this.port = port;
     }
 
     @Override
     public void run() {
         try {
             serverAddress = (Inet4Address) Inet4Address.getByName(ipAddress);
-            socket = new Socket(serverAddress, PORT);
+            socket = new Socket(serverAddress, port);
+            state = true;
             if (socket.isConnected()) {
                 System.out.println("Connected");
                 outputStream = new DataOutputStream(socket.getOutputStream());
@@ -40,21 +51,23 @@ public class SocketData implements Runnable {
             }
             inputData = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            System.out.println(inputData.readLine());
-//            while (!Thread.currentThread().isInterrupted()) {
-//                if (inputData.ready()) {
-//                    System.out.println(inputData.readLine());
-//                    System.out.println("ctu data");
-//                    CTActivity.monitorLogs.add(new MyMonitorLog(inputData.readLine(), true));
-//                    //todo zpracuj nactena data
-//                }
-//            }
+            while (socket.isConnected()) {
+                //  System.out.println(inputData.readLine());
+                //    System.out.println(inputData.readLine());
+                System.out.println("ctu data");
+                String s = inputData.readLine();
+                CTActivity.monitorLogs.add(new MyMonitorLog(s, true));
+                //todo zpracuj nactena data
+
+            }
 
         } catch (UnknownHostException e) {
             System.out.println(R.string.connect_fail);
+            state = false;
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+            state = false;
             System.out.println(R.string.connect_fail);
         }
 

@@ -76,24 +76,22 @@ public class CTActivity extends AppCompatActivity
         settingFragment = new SettingFragment();
         monitorFragment = new MonitorFragment();
 
-
         connect();
     }
 
     private void connect() {
         socketData = new SocketData(IpAddress, port);
-        new Thread(socketData).start();
-//        InetAddress address = null;
-//        try {
-//            address = Inet4Address.getByName(IpAddress);
-//            socketAddress = new InetSocketAddress(address, 1024);
-//            socket.connect(socketAddress, 5000);
-//
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Toast.makeText(this, "nepovedlo se pripojit", Toast.LENGTH_LONG).show();
-//        }
-        Toast.makeText(this, R.string.connected, Toast.LENGTH_LONG).show();
+        Thread t = new Thread(socketData);
+        t.start();
+        //todo vyresit pri spatnem nastaveni aby se nepripojil
+        System.out.println("socketdata.isstate(): "+ socketData.isState());
+        if (socketData.isState())
+            Toast.makeText(this, R.string.connected, Toast.LENGTH_LONG).show();
+        else {
+            Toast.makeText(this, R.string.not_connected, Toast.LENGTH_LONG).show();
+            t.interrupt();
+            finish();
+        }
     }
 
     @Override

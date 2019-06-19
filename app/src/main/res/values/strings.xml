@@ -38,6 +38,7 @@
     <string name="btn_red">Rozsviť červenou</string>
     <string name="connected">Připojeno</string>
     <string name="connect_fail">Nepovedlo se připojit</string>
+    <string name="not_connected">Nepodařilo se připojit, zkontrolujte adresu a port!</string>
 
     <string-array name="CT_set_sequence">
         <item>Tma</item>
