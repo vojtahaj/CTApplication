@@ -2,34 +2,31 @@ package umte.fim.uhk.cz.ctapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.view.MenuItem;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
-
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.ArrayList;
 
+import umte.fim.uhk.cz.ctapplication.fragments.CTFragment;
 import umte.fim.uhk.cz.ctapplication.fragments.MonitorFragment;
 import umte.fim.uhk.cz.ctapplication.fragments.SettingFragment;
-import umte.fim.uhk.cz.ctapplication.weather.WeatherFragment;
 import umte.fim.uhk.cz.ctapplication.utils.MyMonitorLog;
+import umte.fim.uhk.cz.ctapplication.utils.SocketData;
+import umte.fim.uhk.cz.ctapplication.weather.WeatherFragment;
 
 public class CTActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -39,14 +36,16 @@ public class CTActivity extends AppCompatActivity
     private static InputStreamReader inputStreamReader;
     private static BufferedReader bufferedReader;
 
-    private Fragment monitorFragment, weatherFragment, settingFragment;
+    private Fragment monitorFragment, weatherFragment, settingFragment, ctFragment;
     private FragmentManager fragmentManager;
 
     public static ArrayList<MyMonitorLog> monitorLogs;
 
     String message = "";
     String IpAddress = "10.0.0.58";
+    SocketData socketData;
     int port = 1024;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,31 +62,38 @@ public class CTActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         Intent intent = getIntent();
-        port = intent.getIntExtra("port",0);
-        IpAddress =  intent.getStringExtra("IP");
+        port = intent.getIntExtra("port", 0);
+        IpAddress = intent.getStringExtra("IP");
+
 //        System.out.println("Port z MainActivity: "+ port);
 //        System.out.println("IP z MainActivity: "+ IpAddress);
 
         monitorLogs = new ArrayList<>();
 
         fragmentManager = getSupportFragmentManager();
+        ctFragment = new CTFragment();
         weatherFragment = new WeatherFragment();
         settingFragment = new SettingFragment();
         monitorFragment = new MonitorFragment();
-//        connect();
+
+
+        connect();
     }
 
     private void connect() {
-        InetAddress address = null;
-        try {
-            address = Inet4Address.getByName(IpAddress);
-            socketAddress = new InetSocketAddress(address, 1024);
-            socket.connect(socketAddress, 5000);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "nepovedlo se pripojit", Toast.LENGTH_LONG).show();
-        }
+        socketData = new SocketData(IpAddress, port);
+        new Thread(socketData).start();
+//        InetAddress address = null;
+//        try {
+//            address = Inet4Address.getByName(IpAddress);
+//            socketAddress = new InetSocketAddress(address, 1024);
+//            socket.connect(socketAddress, 5000);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Toast.makeText(this, "nepovedlo se pripojit", Toast.LENGTH_LONG).show();
+//        }
+        Toast.makeText(this, R.string.connected, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -127,11 +133,9 @@ public class CTActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-
         if (id == R.id.nav_home) {
-            // Handle the camera action
+            fragmentTransaction.replace(R.id.fragmentFrameLayout, ctFragment);
         } else if (id == R.id.nav_monitor) {
             fragmentTransaction.replace(R.id.fragmentFrameLayout, monitorFragment);
         } else if (id == R.id.nav_setting) {
@@ -139,7 +143,7 @@ public class CTActivity extends AppCompatActivity
         } else if (id == R.id.nav_weather) {
             fragmentTransaction.replace(R.id.fragmentFrameLayout, weatherFragment);
         }
-            fragmentTransaction.commit();
+        fragmentTransaction.commit();
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
