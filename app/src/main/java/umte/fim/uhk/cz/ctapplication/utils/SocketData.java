@@ -59,6 +59,7 @@ public class SocketData implements Runnable {
                 CTActivity.monitorLogs.add(new MyMonitorLog(s, true));
                 //todo zpracuj nactena data
 
+                CTActivity.lightImpl.parse(s, CTActivity.lightImpl.getCT());
             }
 
         } catch (UnknownHostException e) {

@@ -10,11 +10,32 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Objects;
+
+import umte.fim.uhk.cz.ctapplication.CTActivity;
 import umte.fim.uhk.cz.ctapplication.R;
+import umte.fim.uhk.cz.ctapplication.model.ChristmasTree;
 
 public class CTFragment extends Fragment implements View.OnClickListener {
-    TextView NL, NR, FR, FL, Y1, Y2, Y3, G, RL, RR;
-    Button btnRed, btnGo;
+    private static DataOutputStream outputStream;
+
+    private TextView NL;
+    private TextView NR;
+    private TextView FR;
+    private TextView FL;
+    private TextView Y1;
+    private TextView Y2;
+    private TextView Y3;
+    private TextView G;
+    private TextView RL;
+    private TextView RR;
+    private Button btnRed, btnGo;
+
+    private Socket socket;
+    private ChristmasTree christmasTree;
 
     @Nullable
     @Override
@@ -37,6 +58,10 @@ public class CTFragment extends Fragment implements View.OnClickListener {
         btnGo.setOnClickListener(this);
         btnRed.setOnClickListener(this);
 
+        socket = ((CTActivity) Objects.requireNonNull(getActivity())).getSocket();
+
+        christmasTree = CTActivity.lightImpl.getCT();
+
         return view;
     }
 
@@ -45,12 +70,72 @@ public class CTFragment extends Fragment implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.btn_red:
                 System.out.println("rozsvicena cervena");
-                //send writer.send("R0\r\nR1\r\n");
+                if (socket.isConnected()) {
+                    try {
+                        outputStream = new DataOutputStream(socket.getOutputStream());
+                        String s = "RL1\r\nRR1\r\n";
+                        outputStream.writeBytes(s);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 break;
             case R.id.btn_start:
-                System.out.println("startuji");
+                try {
+                    outputStream = new DataOutputStream(socket.getOutputStream());
+                    String s = "SA"; //ct.getSequence();
+                    outputStream.writeBytes(s);
+                    System.out.println("startuji");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 //send writer.start();
         }
+
+    }
+
+    public void updateTextView(ChristmasTree tree) {
+        // System.out.println();
+
+        try {
+            if (tree.getrR().isState()) {
+                RR.setBackgroundColor(getResources().getColor(R.color.colorRed));
+            } else RR.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getrL().isState()) {
+                RL.setBackgroundColor(getResources().getColor(R.color.colorRed));
+            } else RL.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getG().isState()) {
+                G.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+            } else G.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getY1().isState()) {
+                Y1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            } else Y1.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getY2().isState()) {
+                Y2.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            } else Y2.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getY3().isState()) {
+                Y3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            } else Y3.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getnL().isState()) {
+                NL.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            } else NL.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getfL().isState()) {
+                FL.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            } else FL.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getfR().isState()) {
+                FR.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            } else FR.setBackgroundColor(getResources().getColor(R.color.colorGray));
+            if (tree.getnR().isState()) {
+                NR.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+            } else NR.setBackgroundColor(getResources().getColor(R.color.colorGray));
+
+        } catch (
+                NullPointerException exception) {
+            System.out.println("CT Fragment is not visible");
+        }
+        //RL.setText("RL1");
+        //RL.setBackgroundResource(R.color.colorOrange);
 
     }
 }

@@ -15,13 +15,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.ArrayList;
 
 import umte.fim.uhk.cz.ctapplication.fragments.CTFragment;
+import umte.fim.uhk.cz.ctapplication.fragments.LightImpl;
 import umte.fim.uhk.cz.ctapplication.fragments.MonitorFragment;
 import umte.fim.uhk.cz.ctapplication.fragments.SettingFragment;
 import umte.fim.uhk.cz.ctapplication.utils.MyMonitorLog;
@@ -31,20 +29,15 @@ import umte.fim.uhk.cz.ctapplication.weather.WeatherFragment;
 public class CTActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Socket socket;
-    private SocketAddress socketAddress;
-    private static InputStreamReader inputStreamReader;
-    private static BufferedReader bufferedReader;
-
-    private Fragment monitorFragment, weatherFragment, settingFragment, ctFragment;
+    private Fragment monitorFragment = new MonitorFragment(), weatherFragment, settingFragment, ctFragment;
     private FragmentManager fragmentManager;
 
     public static ArrayList<MyMonitorLog> monitorLogs;
+    public static LightImpl lightImpl;
 
-    String message = "";
-    String IpAddress = "10.0.0.58";
-    SocketData socketData;
-    int port = 1024;
+   private String IpAddress = "10.0.0.58";
+   private SocketData socketData;
+   private int port = 1024;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +58,7 @@ public class CTActivity extends AppCompatActivity
         port = intent.getIntExtra("port", 0);
         IpAddress = intent.getStringExtra("IP");
 
+
 //        System.out.println("Port z MainActivity: "+ port);
 //        System.out.println("IP z MainActivity: "+ IpAddress);
 
@@ -76,7 +70,11 @@ public class CTActivity extends AppCompatActivity
         settingFragment = new SettingFragment();
         monitorFragment = new MonitorFragment();
 
+        lightImpl = new LightImpl(ctFragment);
+
         connect();
+
+       // socket = socketData.getSocket();
     }
 
     private void connect() {
@@ -84,7 +82,7 @@ public class CTActivity extends AppCompatActivity
         Thread t = new Thread(socketData);
         t.start();
         //todo vyresit pri spatnem nastaveni aby se nepripojil
-        System.out.println("socketdata.isstate(): "+ socketData.isState());
+        System.out.println("socketdata.isstate(): " + socketData.isState());
         if (socketData.isState())
             Toast.makeText(this, R.string.connected, Toast.LENGTH_LONG).show();
         else {
@@ -92,6 +90,7 @@ public class CTActivity extends AppCompatActivity
             t.interrupt();
             finish();
         }
+
     }
 
     @Override
@@ -145,5 +144,9 @@ public class CTActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public Socket getSocket() {
+        return socketData.getSocket();
     }
 }
