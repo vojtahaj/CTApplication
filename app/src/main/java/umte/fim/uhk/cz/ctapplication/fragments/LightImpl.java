@@ -32,7 +32,7 @@ public class LightImpl implements LightListener {
                 christmasTree.getfL().setState(false);
                 break;
             case "FL1":
-                christmasTree.getnL().setState(true);
+                christmasTree.getfL().setState(true);
                 break;
             case "FR0":
                 christmasTree.getfR().setState(false);

@@ -61,8 +61,16 @@ public class CTFragment extends Fragment implements View.OnClickListener {
         socket = ((CTActivity) Objects.requireNonNull(getActivity())).getSocket();
 
         christmasTree = CTActivity.lightImpl.getCT();
+        updateTextView(christmasTree);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        christmasTree = CTActivity.lightImpl.getCT();
+        updateTextView(christmasTree);
     }
 
     @Override
@@ -131,7 +139,8 @@ public class CTFragment extends Fragment implements View.OnClickListener {
             } else NR.setBackgroundColor(getResources().getColor(R.color.colorGray));
 
         } catch (
-                NullPointerException exception) {
+                Exception exception) {
+            exception.printStackTrace();
             System.out.println("CT Fragment is not visible");
         }
         //RL.setText("RL1");
