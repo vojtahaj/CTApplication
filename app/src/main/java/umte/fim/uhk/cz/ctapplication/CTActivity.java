@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import umte.fim.uhk.cz.ctapplication.fragments.CTFragment;
@@ -81,7 +83,7 @@ public class CTActivity extends AppCompatActivity
         t.start();
         //todo vyresit pri spatnem nastaveni aby se nepripojil
         System.out.println("socketdata.isstate(): " + socketData.isState());
-        if (socketData.isState())
+        if (socketData.getOutputStream() != null)
             Toast.makeText(this, R.string.connected, Toast.LENGTH_LONG).show();
         else {
             Toast.makeText(this, R.string.not_connected, Toast.LENGTH_LONG).show();
@@ -101,9 +103,8 @@ public class CTActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NotNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
