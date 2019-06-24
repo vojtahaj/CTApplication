@@ -117,45 +117,45 @@ public class CTFragment extends Fragment implements View.OnClickListener {
     public void updateTextView(ChristmasTree tree) {
         // System.out.println();
 
-        try {
-            if (tree.getrR().isState()) {
-                RR.setBackgroundColor(getResources().getColor(R.color.colorRed));
-            } else RR.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getrL().isState()) {
-                RL.setBackgroundColor(getResources().getColor(R.color.colorRed));
-            } else RL.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getG().isState()) {
-                G.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-            } else G.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getY1().isState()) {
-                Y1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-            } else Y1.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getY2().isState()) {
-                Y2.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-            } else Y2.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getY3().isState()) {
-                Y3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-            } else Y3.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getnL().isState()) {
-                NL.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-            } else NL.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getfL().isState()) {
-                FL.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-            } else FL.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getfR().isState()) {
-                FR.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-            } else FR.setBackgroundColor(getResources().getColor(R.color.colorGray));
-            if (tree.getnR().isState()) {
-                NR.setBackgroundColor(getResources().getColor(R.color.colorOrange));
-            } else NR.setBackgroundColor(getResources().getColor(R.color.colorGray));
+        if (isVisible()) {
+            try {
+                if (tree.getrR().isState()) {
+                    RR.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                } else RR.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getrL().isState()) {
+                    RL.setBackgroundColor(getResources().getColor(R.color.colorRed));
+                } else RL.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getG().isState()) {
+                    G.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+                } else G.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getY1().isState()) {
+                    Y1.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+                } else Y1.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getY2().isState()) {
+                    Y2.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+                } else Y2.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getY3().isState()) {
+                    Y3.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+                } else Y3.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getnL().isState()) {
+                    NL.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+                } else NL.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getfL().isState()) {
+                    FL.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+                } else FL.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getfR().isState()) {
+                    FR.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+                } else FR.setBackgroundColor(getResources().getColor(R.color.colorGray));
+                if (tree.getnR().isState()) {
+                    NR.setBackgroundColor(getResources().getColor(R.color.colorOrange));
+                } else NR.setBackgroundColor(getResources().getColor(R.color.colorGray));
 
-        } catch (
-                Exception exception) {
-            exception.printStackTrace();
-            System.out.println("CT Fragment is not visible");
+            } catch (
+                    Exception exception) {
+                exception.printStackTrace();
+                System.out.println("CT Fragment is not visible");
+            }
         }
-        //RL.setText("RL1");
-        //RL.setBackgroundResource(R.color.colorOrange);
 
     }
 }

@@ -16,7 +16,7 @@ public class LightImpl implements LightListener {
     }
 
     @Override
-    public void parse(String message, ChristmasTree christmasTree) {
+    public void parse(String message, final ChristmasTree christmasTree) {
 
         switch (message) {
             case "A$":
@@ -86,7 +86,8 @@ public class LightImpl implements LightListener {
                 parseTemp(message);
         }
 
-        ctFragment.updateTextView(christmasTree);
+                ctFragment.updateTextView(christmasTree);
+
     }
 
     private void parseTemp(String message) {
@@ -98,9 +99,7 @@ public class LightImpl implements LightListener {
             } catch (NumberFormatException e) {
                 e.printStackTrace();
             }
-        }
-        else
-        {
+        } else {
             System.out.println("short message!!!");
         }
     }

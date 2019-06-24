@@ -20,6 +20,7 @@ import java.util.Objects;
 
 import umte.fim.uhk.cz.ctapplication.CTActivity;
 import umte.fim.uhk.cz.ctapplication.R;
+import umte.fim.uhk.cz.ctapplication.model.ChristmasTree;
 import umte.fim.uhk.cz.ctapplication.utils.MyMonitorLog;
 import umte.fim.uhk.cz.ctapplication.utils.SocketData;
 
@@ -33,6 +34,7 @@ public class SettingFragment extends Fragment {
 
     private SocketData socketData;
     private DataOutputStream outputStream;
+    private ChristmasTree ct;
 
     @Nullable
     @Override
@@ -58,6 +60,8 @@ public class SettingFragment extends Fragment {
             outputStream = socketData.getOutputStream();
         }
 
+        ct = CTActivity.lightImpl.getCT();
+
         btnSet = view.findViewById(R.id.btn_set_values);
         btnSet.setOnClickListener(new View.OnClickListener() {
 
@@ -68,12 +72,14 @@ public class SettingFragment extends Fragment {
                 String s = spinnerSequence.getSelectedItem().toString();
 
                 builder = convertRYG(dsecGreen.getText().toString(), dsecYellow.getText().toString());
-
-                builder = builder +
-                        getValueFromSpinner(s) + "\r\n";
-                if (radioAdd.isChecked())
+                builder = builder + getValueFromSpinner(s);
+                if (radioAdd.isChecked()) {
                     builder += "VA\r\n";
-                else builder += "VB\r\n";
+                    ct.setSequence("VA\r\n");
+                } else {
+                    builder += "VB\r\n";
+                    ct.setSequence("VB\r\n");
+                }
 
                 Toast.makeText(getActivity(), builder, Toast.LENGTH_LONG).show();
                 sendMessage(builder);
@@ -87,14 +93,11 @@ public class SettingFragment extends Fragment {
     private String convertRYG(String green, String yellow) {
         int gInt = Integer.valueOf(green);
         int yInt = Integer.valueOf(yellow);
-        char gChar = (char) gInt;
-        char yChar = (char) yInt;
-        System.out.println("gInt>char " + gChar);
-        System.out.println("yInt>char " + yChar);
-        String string = "T";
-        //todo update semafor setSequence
 
-        return "T123\r\n";
+        ct.setGreen(gInt);
+        ct.setYellow(yInt);
+        return "G" + gInt + "\r\n"
+                + "Y" + yInt + "\r\n";
     }
 
     private void sendMessage(final String builder) {

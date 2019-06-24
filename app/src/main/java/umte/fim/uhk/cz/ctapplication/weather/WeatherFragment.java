@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Objects;
 
 import retrofit2.Call;
@@ -106,6 +107,11 @@ public class WeatherFragment extends Fragment implements OnSuccessListener<Locat
     }
 
     private void setLabels() {
+        if (latitude == 0)
+            latitude = 15;
+
+        if (longitude == 0)
+            longitude = 35;
         txtLat.setText(String.valueOf(latitude));
         txtLon.setText(String.valueOf(longitude));
     }
@@ -142,7 +148,7 @@ public class WeatherFragment extends Fragment implements OnSuccessListener<Locat
 
     private String tempToCelsius(float temp) {
         float tempToC = temp - 273.15f;
-        return tempToC + "°C";
+        return String.format(Locale.ENGLISH,"%4.2f",tempToC);
     }
 
     private void getDataFromArduino() {
@@ -159,13 +165,18 @@ public class WeatherFragment extends Fragment implements OnSuccessListener<Locat
             }
         }.start();
 
-        txtArduinoTemp.setText(String.format("%s°C", CTActivity.lightImpl.getCT().getTemperature()));
+        txtArduinoTemp.setText(String.format(Locale.ENGLISH,"%4.2f", CTActivity.lightImpl.getCT().getTemperature()));
     }
 
     @Override
     public void onSuccess(Location location) {
-        longitude = location.getLongitude();
-        latitude = location.getLatitude();
+        if (location != null) {
+            longitude = location.getLongitude();
+            latitude = location.getLatitude();
+        } else {
+            longitude = 15;
+            latitude = 35;
+        }
         Toast.makeText(getActivity(), "location changed", Toast.LENGTH_LONG).show();
         setLabels();
     }
