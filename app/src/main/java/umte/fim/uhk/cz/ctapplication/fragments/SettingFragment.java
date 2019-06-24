@@ -92,6 +92,7 @@ public class SettingFragment extends Fragment {
         System.out.println("gInt>char " + gChar);
         System.out.println("yInt>char " + yChar);
         String string = "T";
+        //todo update semafor setSequence
 
         return "T123\r\n";
     }

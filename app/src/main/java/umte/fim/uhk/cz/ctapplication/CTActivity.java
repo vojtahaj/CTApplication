@@ -73,18 +73,22 @@ public class CTActivity extends AppCompatActivity
         lightImpl = new LightImpl(ctFragment);
 
         connect();
-
-        // socket = socketData.getSocket();
     }
 
     private void connect() {
         socketData = new SocketData(IpAddress, port);
         Thread t = new Thread(socketData);
         t.start();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("socketdata.isstate(): " + socketData.isState());
-        if (socketData.getOutputStream() != null)
+        if (monitorLogs.size() > 0)
             Toast.makeText(this, R.string.connected, Toast.LENGTH_LONG).show();
         else {
+            System.out.println("err, mlog.size "+ CTActivity.monitorLogs.size());
             Toast.makeText(this, R.string.not_connected, Toast.LENGTH_LONG).show();
             t.interrupt();
             finish();
@@ -97,9 +101,7 @@ public class CTActivity extends AppCompatActivity
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        } else super.onBackPressed();
     }
 
     @Override

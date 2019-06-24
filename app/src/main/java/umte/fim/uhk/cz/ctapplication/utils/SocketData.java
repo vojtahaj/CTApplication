@@ -51,7 +51,7 @@ public class SocketData implements Runnable, SocketWriter {
             if (socket.isConnected()) {
                 System.out.println("Connected");
                 outputStream = new DataOutputStream(socket.getOutputStream());
-                String s = "hello from client\r\n";
+                String s = "A\r\n";
                 outputStream.writeBytes(s);
                 CTActivity.monitorLogs.add(new MyMonitorLog(s, false));
 

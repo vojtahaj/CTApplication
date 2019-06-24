@@ -1,17 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".CTActivity"
     tools:showIn="@layout/app_bar_ct">
-<FrameLayout
-    android:id="@+id/fragmentFrameLayout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-</FrameLayout>
-    
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:text="@string/nav_header_subtitle"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textHelp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Z levé strany jde vysunout menu, kde jsou k vidění nabídky:\n
+ - semafor: zde je zobrazen aktuální stav semaforu podle toho, jak zrovna svítí\n
+ - monitor: tady můžeme vidět, jak probíhá komunikace mezi telefonem, jakožto klientem a HLK-RM04 jako serverem. Lze použít i jakýkoliv jiný server\n
+ - počasí: podle pozice s GPS a teploty z CT se dotazuje na openWeatherApi a stahuje aktuální teplotu\n
+ - nastavení: nastavují se hodnoty pro semafor - délky svitu oranžové a zelené jestli oranžová přidává nebo postupuje a startovací sekvenci, tj. jak se bude semafor chovat"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp" />
+
+    <FrameLayout
+        android:id="@+id/fragmentFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+</LinearLayout>
