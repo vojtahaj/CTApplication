@@ -11,11 +11,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.net.Socket;
 import java.util.ArrayList;
 
 import umte.fim.uhk.cz.ctapplication.fragments.CTFragment;
@@ -35,9 +33,9 @@ public class CTActivity extends AppCompatActivity
     public static ArrayList<MyMonitorLog> monitorLogs;
     public static LightImpl lightImpl;
 
-   private String IpAddress = "10.0.0.58";
-   private SocketData socketData;
-   private int port = 1024;
+    private String IpAddress = "10.0.0.58";
+    private SocketData socketData;
+    private int port = 1024;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +72,7 @@ public class CTActivity extends AppCompatActivity
 
         connect();
 
-       // socket = socketData.getSocket();
+        // socket = socketData.getSocket();
     }
 
     private void connect() {
@@ -103,28 +101,6 @@ public class CTActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.ct, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -146,7 +122,7 @@ public class CTActivity extends AppCompatActivity
         return true;
     }
 
-    public Socket getSocket() {
-        return socketData.getSocket();
+    public SocketData getSocketData() {
+        return socketData;
     }
 }

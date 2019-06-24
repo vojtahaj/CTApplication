@@ -19,12 +19,19 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.util.Objects;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import umte.fim.uhk.cz.ctapplication.CTActivity;
 import umte.fim.uhk.cz.ctapplication.R;
+import umte.fim.uhk.cz.ctapplication.utils.MyMonitorLog;
+import umte.fim.uhk.cz.ctapplication.utils.SocketData;
 
 /**
  * cele pocasi je inspirovano z
@@ -45,8 +52,12 @@ public class WeatherFragment extends Fragment implements OnSuccessListener<Locat
     private TextView txtTempApi;
     private TextView txtLat;
     private TextView txtLon;
+    private TextView txtArduinoTemp;
 
     private FusedLocationProviderClient fusedLocationProviderClient;
+
+    private SocketData socketData;
+    private DataOutputStream outputStream;
 
     @Nullable
     @Override
@@ -59,6 +70,7 @@ public class WeatherFragment extends Fragment implements OnSuccessListener<Locat
         txtTempApi = view.findViewById(R.id.api_temp);
         txtLat = view.findViewById(R.id.lat);
         txtLon = view.findViewById(R.id.lon);
+        txtArduinoTemp = view.findViewById(R.id.arduino_temp);
 
         btnUpdate = view.findViewById(R.id.btn_update_temperature);
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +80,9 @@ public class WeatherFragment extends Fragment implements OnSuccessListener<Locat
                 getCurrentData();
             }
         });
+
+        socketData = ((CTActivity) Objects.requireNonNull(getActivity())).getSocketData();
+        outputStream = socketData.getOutputStream();
 
         return view;
     }
@@ -131,8 +146,20 @@ public class WeatherFragment extends Fragment implements OnSuccessListener<Locat
     }
 
     private void getDataFromArduino() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    outputStream.writeBytes("T?\r\n");
+                    CTActivity.monitorLogs.add(new MyMonitorLog("T?\r\n", false));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    System.out.println("Error ctfragmentClick IO");
+                }
+            }
+        }.start();
 
-        //todo writer.send(T?)
+        txtArduinoTemp.setText(String.format("%s°C", CTActivity.lightImpl.getCT().getTemperature()));
     }
 
     @Override

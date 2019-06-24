@@ -34,7 +34,7 @@ public class ChristmasTree {
         //se startovaci sekvenci pro rucni starty
         green = 40;
         yellow = 25;
-        sequence = "SE";
+        sequence = "SE\r\n";
 
     }
 

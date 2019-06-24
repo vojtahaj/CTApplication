@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         int port = 0;
         String sIP = txtIP.getText().toString();
 
-        //todo validace ipAdresy
+        //validace ipAdresy
         if (IPValidator.isIPAddress(sIP))
             Toast.makeText(this, R.string.bad_IP_Format + " IP> " + sIP, Toast.LENGTH_LONG).show();
         else if (!IPValidator.isPort(txtPort.getText().toString())) {

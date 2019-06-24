@@ -1,6 +1,7 @@
 package umte.fim.uhk.cz.ctapplication.fragments;
 
 import android.os.Bundle;
+
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,16 +12,17 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.io.DataOutputStream;
+
 import java.io.IOException;
-import java.net.Socket;
 import java.util.Objects;
 
 import umte.fim.uhk.cz.ctapplication.CTActivity;
 import umte.fim.uhk.cz.ctapplication.R;
 import umte.fim.uhk.cz.ctapplication.model.ChristmasTree;
+import umte.fim.uhk.cz.ctapplication.utils.MyMonitorLog;
+import umte.fim.uhk.cz.ctapplication.utils.SocketData;
 
 public class CTFragment extends Fragment implements View.OnClickListener {
-    private static DataOutputStream outputStream;
 
     private TextView NL;
     private TextView NR;
@@ -34,8 +36,9 @@ public class CTFragment extends Fragment implements View.OnClickListener {
     private TextView RR;
     private Button btnRed, btnGo;
 
-    private Socket socket;
     private ChristmasTree christmasTree;
+    private SocketData socketData;
+    private DataOutputStream outputStream;
 
     @Nullable
     @Override
@@ -58,7 +61,13 @@ public class CTFragment extends Fragment implements View.OnClickListener {
         btnGo.setOnClickListener(this);
         btnRed.setOnClickListener(this);
 
-        socket = ((CTActivity) Objects.requireNonNull(getActivity())).getSocket();
+        socketData = ((CTActivity) Objects.requireNonNull(getActivity())).getSocketData();
+        if (socketData == null) {
+            System.out.println("socketdata Null");
+        } else {
+            System.out.println("socketdata notnull");
+            outputStream = socketData.getOutputStream();
+        }
 
         christmasTree = CTActivity.lightImpl.getCT();
         updateTextView(christmasTree);
@@ -75,32 +84,34 @@ public class CTFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        final String s;
         switch (view.getId()) {
             case R.id.btn_red:
                 System.out.println("rozsvicena cervena");
-                if (socket.isConnected()) {
-                    try {
-                        outputStream = new DataOutputStream(socket.getOutputStream());
-                        String s = "RL1\r\nRR1\r\n";
-                        outputStream.writeBytes(s);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-
+                s = "RL1\r\nRR1\r\n";
                 break;
             case R.id.btn_start:
+                System.out.println("startuji");
+                s = christmasTree.getSequence();
+                break;
+            default:
+                s = "SA";
+        }
+//        Message msg = Message.obtain();
+//        msg.obj = s;
+//    SocketData.handler.handleMessage(msg);
+        new Thread() {
+            @Override
+            public void run() {
                 try {
-                    outputStream = new DataOutputStream(socket.getOutputStream());
-                    String s = "SA"; //ct.getSequence();
                     outputStream.writeBytes(s);
-                    System.out.println("startuji");
+                    CTActivity.monitorLogs.add(new MyMonitorLog(s, false));
                 } catch (IOException e) {
                     e.printStackTrace();
+                    System.out.println("Error ctfragmentClick IO");
                 }
-                //send writer.start();
-        }
-
+            }
+        }.start();
     }
 
     public void updateTextView(ChristmasTree tree) {
