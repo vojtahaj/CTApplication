@@ -81,7 +81,6 @@ public class CTActivity extends AppCompatActivity
         socketData = new SocketData(IpAddress, port);
         Thread t = new Thread(socketData);
         t.start();
-        //todo vyresit pri spatnem nastaveni aby se nepripojil
         System.out.println("socketdata.isstate(): " + socketData.isState());
         if (socketData.getOutputStream() != null)
             Toast.makeText(this, R.string.connected, Toast.LENGTH_LONG).show();
