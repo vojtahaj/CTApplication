@@ -70,6 +70,10 @@ public class CTActivity extends AppCompatActivity
         settingFragment = new SettingFragment();
         monitorFragment = new MonitorFragment();
 
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragmentFrameLayout, ctFragment);
+        fragmentTransaction.commit();
+
         lightImpl = new LightImpl(ctFragment);
 
         connect();
@@ -79,20 +83,20 @@ public class CTActivity extends AppCompatActivity
         socketData = new SocketData(IpAddress, port);
         Thread t = new Thread(socketData);
         t.start();
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("socketdata.isstate(): " + socketData.isState());
-//        if (monitorLogs.size() > 0)
+        if (monitorLogs.size() > 0)
         Toast.makeText(this, R.string.connected, Toast.LENGTH_LONG).show();
-//        else {
-//            System.out.println("err, mlog.size "+ CTActivity.monitorLogs.size());
-//            Toast.makeText(this, R.string.not_connected, Toast.LENGTH_LONG).show();
-//            t.interrupt();
-//            finish();
-//    }
+        else {
+            System.out.println("err, mlog.size "+ CTActivity.monitorLogs.size());
+            Toast.makeText(this, R.string.not_connected, Toast.LENGTH_LONG).show();
+            t.interrupt();
+            finish();
+    }
 
     }
 

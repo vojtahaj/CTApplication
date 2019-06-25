@@ -91,8 +91,13 @@ public class SettingFragment extends Fragment {
     }
 
     private String convertRYG(String green, String yellow) {
-        int gInt = Integer.valueOf(green);
-        int yInt = Integer.valueOf(yellow);
+        //defaultni hodnoty pro ct svit
+        int gInt = 10;
+        int yInt = 3;
+        if (!green.equals(""))
+            gInt = Integer.valueOf(green);
+        if (!yellow.equals(""))
+            yInt = Integer.valueOf(yellow);
 
         ct.setGreen(gInt);
         ct.setYellow(yInt);

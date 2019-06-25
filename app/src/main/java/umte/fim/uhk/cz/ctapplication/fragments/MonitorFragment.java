@@ -36,7 +36,6 @@ public class MonitorFragment extends Fragment {
             public void onClick(View view) {
                 //Vymaze jenom textView ne cely arraylist
                 txtMonitor.setText("");
-                //  Toast.makeText(getActivity(), "cistim",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -57,21 +56,20 @@ public class MonitorFragment extends Fragment {
                 date.setSpan(new ForegroundColorSpan(Color.BLACK), 0, date.length(), 0);
                 builder.append(date);
 
-                SpannableString message = SpannableString.valueOf(CTActivity.monitorLogs.get(i).getMessage() + "\n");
+                SpannableString message = SpannableString.valueOf(CTActivity.monitorLogs.get(i).getMessage());
 
 
                 if (CTActivity.monitorLogs.get(i).isRecieved()) {
                     message.setSpan(new ForegroundColorSpan(Color.GREEN), 0, message.length(), 0);
                     builder.append(message);
-                    //txtMonitor.setTextColor(Color.BLACK);
+
                 } else {
                     message.setSpan(new ForegroundColorSpan(Color.RED), 0, message.length(), 0);
                     builder.append(message);
-//                    txtMonitor.setTextColor(Color.GREEN);
+
                 }
                 txtMonitor.append(builder);
-//                txtMonitor.append(CTActivity.monitorLogs.get(i).getMessage() + "\n");
-                // System.out.println("Vypisuji do monitooru: " + CTActivity.monitorLogs.size());
+
             }
 
     }
