@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:gravity="end"
             android:hint="@string/expected_val"
-            android:textColor="@color/colorOrange" />
+            android:textColor="@color/colorGray" />
     </LinearLayout>
 
     <LinearLayout

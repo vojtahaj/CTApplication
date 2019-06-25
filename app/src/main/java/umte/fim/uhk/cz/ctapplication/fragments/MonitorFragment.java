@@ -62,6 +62,7 @@ public class MonitorFragment extends Fragment {
                 if (CTActivity.monitorLogs.get(i).isRecieved()) {
                     message.setSpan(new ForegroundColorSpan(Color.GREEN), 0, message.length(), 0);
                     builder.append(message);
+                    builder.append("\r\n");
 
                 } else {
                     message.setSpan(new ForegroundColorSpan(Color.RED), 0, message.length(), 0);
